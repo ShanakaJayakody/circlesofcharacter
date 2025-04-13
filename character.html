@@ -28,57 +28,124 @@
 
         /* --- Character Interface Specific Styles --- */
 
-        /* Initial View Container */
+        /* Main container for the two views */
+        #character-interface-wrapper {
+            position: relative;
+        }
+
+        /* Initial View Container - Updated Grid Layout */
         #initial-view-container {
             display: grid;
-            grid-template-columns: 1fr auto 1fr; /* Left col, SVG col, Right col */
-            gap: 2rem; /* gap-8 */
-            align-items: center;
-            padding: 2rem 0; /* py-8 */
+            /* 5 columns: L-Outer, L-Inner, Center (SVG), R-Inner, R-Outer */
+            /* 7 rows defined implicitly by content placement */
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem; /* gap-3 */
+            align-items: center; /* Vertically align items in cells */
+            padding: 1rem 0; /* py-4 */
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
             max-width: 900px; /* Constrain width */
             margin: 0 auto; /* Center the initial view */
+            min-height: 400px; /* Ensure space */
+        }
+        /* Styling for grid cells holding category boxes */
+        .grid-cell {
+            /* Style applies to the box inside */
         }
 
-        /* Styling for the SVG silhouette */
-        .human-silhouette-container { display: flex; justify-content: center; align-items: center; }
+        /* Styling for the SVG silhouette container */
+        .human-silhouette-container {
+            grid-column: 3 / 4; /* Place in the center column */
+            grid-row: 1 / 8;    /* Span all 7 conceptual rows */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem; /* Add some padding around SVG */
+        }
         .human-silhouette-svg { width: 150px; height: auto; fill: #cbd5e1; /* slate-300 */ }
-
-        /* Columns for category boxes */
-        .category-box-column { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 
         /* Styling for the pastel category boxes */
         .category-box {
-            padding: 1rem 1.5rem; border-radius: 0.5rem; text-align: center;
+            padding: 0.75rem 1rem; /* p-3 px-4 */
+            border-radius: 0.5rem; text-align: center;
             font-weight: 600; color: #334155; /* slate-700 */ cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);
+            width: 100%; /* Ensure box fills grid cell */
         }
         .category-box:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
 
-        /* Pastel Category Colors (Backgrounds for initial boxes) */
-        .cat-bg-purposefulness { background-color: #fbcfe8; border-color: #f9a8d4; } /* Pink */
-        .cat-bg-hope { background-color: #bfdbfe; border-color: #93c5fd; } /* Blue */
-        .cat-bg-truthfulness { background-color: #a7f3d0; border-color: #6ee7b7; } /* Teal */
-        .cat-bg-love { background-color: #fecaca; border-color: #fca5a5; } /* Red */
-        .cat-bg-respect { background-color: #fed7aa; border-color: #fdba74; } /* Orange */
-        .cat-bg-mindfulness { background-color: #fecaca; border-color: #fca5a5;} /* Red */
-        .cat-bg-wisdom { background-color: #ddd6fe; border-color: #c4b5fd; } /* Violet */
-        .cat-bg-trustworthiness { background-color: #bbf7d0; border-color: #86efac; } /* Green */
-        .cat-bg-compassion { background-color: #a7f3d0; border-color: #6ee7b7;} /* Teal */
-        .cat-bg-courage { background-color: #fef08a; border-color: #fde047; } /* Yellow */
-        .cat-bg-tolerance { background-color: #fed7aa; border-color: #fdba74; } /* Orange */
-        .cat-bg-self-discipline { background-color: #e2e8f0; border-color: #cbd5e1; } /* Slate */
+        /* --- UPDATED Pastel Category Colors --- */
+        /* Purposefulness (Pink) - Kept */
+        .cat-bg-purposefulness { background-color: #fbcfe8; border-color: #f9a8d4; }
+        /* Hope (Violet) - Changed */
+        .cat-bg-hope { background-color: #ddd6fe; border-color: #c4b5fd; }
+        /* Truthfulness (Blue) - Changed */
+        .cat-bg-truthfulness { background-color: #bfdbfe; border-color: #93c5fd; }
+        /* Love (Green) - Changed */
+        .cat-bg-love { background-color: #bbf7d0; border-color: #86efac; }
+        /* Respect (Orange) - Kept */
+        .cat-bg-respect { background-color: #fed7aa; border-color: #fdba74; }
+        /* Mindfulness (Red) - Changed */
+        .cat-bg-mindfulness { background-color: #fecaca; border-color: #fca5a5; }
+        /* Wisdom (Violet) - Kept */
+        .cat-bg-wisdom { background-color: #ddd6fe; border-color: #c4b5fd; }
+        /* Trustworthiness (Blue) - Changed */
+        .cat-bg-trustworthiness { background-color: #bfdbfe; border-color: #93c5fd; }
+        /* Compassion (Green) - Changed */
+        .cat-bg-compassion { background-color: #bbf7d0; border-color: #86efac; }
+        /* Courage (Yellow) - Kept */
+        .cat-bg-courage { background-color: #fef08a; border-color: #fde047; }
+        /* Tolerance (Orange) - Kept */
+        .cat-bg-tolerance { background-color: #fed7aa; border-color: #fdba74; }
+        /* Self-Discipline (Red) - Changed */
+        .cat-bg-self-discipline { background-color: #fecaca; border-color: #fca5a5; }
+
+        /* Container for Sidebar and Trait Area */
+        #sidebar-trait-view {
+            display: none; /* Hidden initially */
+            flex-direction: column; /* Stack button above content on small screens */
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+        #sidebar-trait-view.active {
+            display: flex; /* Show when active */
+            opacity: 1;
+        }
+        #sidebar-trait-content {
+             display: flex;
+             flex-direction: row; /* Sidebar next to traits on larger screens */
+             gap: 2rem; /* gap-8 */
+             width: 100%;
+        }
+
+        /* Back Button */
+        #back-to-main-view-button {
+            display: none; /* Hidden initially */
+            margin-bottom: 1rem; /* Space below button */
+            padding: 0.5rem 1rem; /* py-2 px-4 */
+            background-color: #e5e7eb; /* gray-200 */
+            color: #374151; /* gray-700 */
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            align-self: flex-start; /* Align to left */
+        }
+        #back-to-main-view-button:hover {
+             background-color: #d1d5db; /* gray-300 */
+        }
+        #back-to-main-view-button.visible {
+             display: inline-block; /* Show when needed */
+        }
+
 
         /* Sidebar */
         .sidebar {
             width: 250px; flex-shrink: 0;
-            transition: opacity 0.5s ease-out 0.3s, transform 0.5s ease-out 0.3s;
-            transform: translateX(-30px); opacity: 0;
-            height: calc(100vh - 80px); overflow-y: auto; position: sticky; top: 80px;
-            display: none; /* Hide until active */
+            /* Removed transitions/transforms - handled by parent container now */
+            height: calc(100vh - 120px); /* Adjust based on header + button height */
+            overflow-y: auto; position: sticky; top: 80px; /* Adjust as needed */
         }
-        .sidebar.active { transform: translateX(0); opacity: 1; display: block; }
         .sidebar ul li button {
             display: block; width: 100%; padding: 0.75rem 1.5rem; text-align: left;
             border-radius: 0.5rem; margin-bottom: 0.5rem; font-weight: 500;
@@ -87,56 +154,47 @@
         .sidebar ul li button.selected { font-weight: 600; color: white; }
         .sidebar ul li button:not(.selected):hover { background-color: #e2e8f0; }
 
-        /* Sidebar selected item background color (using pastel vars) & text contrast */
+        /* --- UPDATED Sidebar selected item background color & text contrast --- */
         .sidebar ul li button.selected.cat-bg-purposefulness { background-color: #fbcfe8; color: #831843;}
-        .sidebar ul li button.selected.cat-bg-hope { background-color: #bfdbfe; color: #1e3a8a;}
-        .sidebar ul li button.selected.cat-bg-truthfulness { background-color: #a7f3d0; color: #047857;}
-        .sidebar ul li button.selected.cat-bg-love { background-color: #fecaca; color: #991b1b;}
+        .sidebar ul li button.selected.cat-bg-hope { background-color: #ddd6fe; color: #5b21b6;} /* Violet */
+        .sidebar ul li button.selected.cat-bg-truthfulness { background-color: #bfdbfe; color: #1e3a8a;} /* Blue */
+        .sidebar ul li button.selected.cat-bg-love { background-color: #bbf7d0; color: #166534;} /* Green */
         .sidebar ul li button.selected.cat-bg-respect { background-color: #fed7aa; color: #9a3412;}
-        .sidebar ul li button.selected.cat-bg-mindfulness { background-color: #fecaca; color: #991b1b;}
+        .sidebar ul li button.selected.cat-bg-mindfulness { background-color: #fecaca; color: #991b1b;} /* Red */
         .sidebar ul li button.selected.cat-bg-wisdom { background-color: #ddd6fe; color: #5b21b6;}
-        .sidebar ul li button.selected.cat-bg-trustworthiness { background-color: #bbf7d0; color: #166534;}
-        .sidebar ul li button.selected.cat-bg-compassion { background-color: #a7f3d0; color: #047857;}
+        .sidebar ul li button.selected.cat-bg-trustworthiness { background-color: #bfdbfe; color: #1e3a8a;} /* Blue */
+        .sidebar ul li button.selected.cat-bg-compassion { background-color: #bbf7d0; color: #166534;} /* Green */
         .sidebar ul li button.selected.cat-bg-courage { background-color: #fef08a; color: #854d0e;}
         .sidebar ul li button.selected.cat-bg-tolerance { background-color: #fed7aa; color: #9a3412;}
-        .sidebar ul li button.selected.cat-bg-self-discipline { background-color: #e2e8f0; color: #1e293b;}
+        .sidebar ul li button.selected.cat-bg-self-discipline { background-color: #fecaca; color: #991b1b;} /* Red */
 
         /* Trait Cards Container */
         .trait-cards-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem; opacity: 0;
-            transition: opacity 0.5s ease-out 0.3s;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            /* Removed opacity transition - handled by parent */
         }
-        .trait-cards-container.visible { opacity: 1; }
 
-        /* Trait Card Base Style */
+        /* Trait Card Style */
         .trait-card {
-            background-color: white; padding: 1rem; border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            text-align: center; cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
-            border-width: 2px; /* Make border visible */
-            border-style: solid;
-            border-color: #e5e7eb; /* Default border color */
+            background-color: white; border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.07); border: 1px solid #e5e7eb;
+            overflow: hidden; text-align: center; cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex; flex-direction: column;
         }
-         .trait-card:hover { transform: scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .trait-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        /* Image Placeholder Area */
+        .trait-image-placeholder {
+            height: 180px; background-color: #f3f4f6; display: flex;
+            align-items: center; justify-content: center; color: #9ca3af;
+            font-size: 2rem; border-bottom: 1px solid #e5e7eb;
+        }
+        /* Trait Name Area */
+        .trait-name { padding: 1rem; font-weight: 600; color: #374151; font-size: 1.1rem; }
 
-        /* Trait Card Border Colors (Applied via JS by adding class to container) */
-        /* Using slightly stronger/more saturated colors for borders */
-        .border-cat-purposefulness .trait-card { border-color: #e879f9; } /* Fuchsia 400 */
-        .border-cat-hope .trait-card { border-color: #60a5fa; } /* Blue 400 */
-        .border-cat-truthfulness .trait-card { border-color: #2dd4bf; } /* Teal 400 */
-        .border-cat-love .trait-card { border-color: #f87171; } /* Red 400 */
-        .border-cat-respect .trait-card { border-color: #fb923c; } /* Orange 400 */
-        .border-cat-mindfulness .trait-card { border-color: #f87171; } /* Red 400 */
-        .border-cat-wisdom .trait-card { border-color: #a78bfa; } /* Violet 400 */
-        .border-cat-trustworthiness .trait-card { border-color: #4ade80; } /* Green 400 */
-        .border-cat-compassion .trait-card { border-color: #34d399; } /* Emerald 400 */
-        .border-cat-courage .trait-card { border-color: #facc15; } /* Yellow 400 */
-        .border-cat-tolerance .trait-card { border-color: #fbbf24; } /* Amber 400 */
-        .border-cat-self-discipline .trait-card { border-color: #94a3b8; } /* Slate 400 */
-
-        /* Modal Styles */
+        /* Modal Styles (unchanged) */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background-color: #fff; margin: auto; padding: 2rem; border-radius: 0.5rem; max-width: 500px; width: 90%; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
@@ -179,33 +237,30 @@
     <main class="container mx-auto px-6 py-12">
 
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-4 text-center">Explore Our Character Framework</h1>
-        <p class="text-lg text-gray-700 mb-10 text-center max-w-3xl mx-auto">Discover the 12 core character categories and the specific qualities we nurture within each. Click on a category box below to explore its traits.</p>
+        <p id="intro-text" class="text-lg text-gray-700 mb-10 text-center max-w-3xl mx-auto">Discover the 12 core character categories and the specific qualities we nurture within each. Click on a category box below to explore its traits.</p>
 
-        <div id="character-interface" class="flex flex-col md:flex-row gap-8">
+        <div id="character-interface-wrapper">
 
             <div id="initial-view-container" class="w-full">
-                <div class="category-box-column" id="left-category-column">
-                    </div>
-                <div class="human-silhouette-container">
-                    <svg class="human-silhouette-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50 10 C 40 10, 35 20, 35 30 C 35 45, 40 55, 50 55 C 60 55, 65 45, 65 30 C 65 20, 60 10, 50 10 Z M 50 60 C 30 60, 20 75, 20 100 L 20 170 C 20 190, 35 200, 50 200 C 65 200, 80 190, 80 170 L 80 100 C 80 75, 70 60, 50 60 Z"></path>
-                    </svg>
                 </div>
-                 <div class="category-box-column" id="right-category-column">
-                    </div>
+
+            <div id="sidebar-trait-view">
+                 <button id="back-to-main-view-button">
+                     <i class="fas fa-arrow-left mr-2"></i> Back to Overview
+                 </button>
+                 <div id="sidebar-trait-content">
+                     <aside id="sidebar" class="sidebar bg-white p-4 rounded-lg shadow">
+                         <h3 class="text-lg font-semibold mb-4 text-gray-700">Categories</h3>
+                         <ul id="sidebar-category-list">
+                             </ul>
+                     </aside>
+                     <section id="trait-display-area" class="flex-grow min-w-0">
+                         <h2 id="trait-area-title" class="text-2xl font-semibold text-gray-800 mb-6"></h2>
+                         <div id="trait-cards-container" class="trait-cards-container">
+                             </div>
+                     </section>
+                 </div>
             </div>
-
-            <aside id="sidebar" class="sidebar bg-white p-4 rounded-lg shadow">
-                 <h3 class="text-lg font-semibold mb-4 text-gray-700">Categories</h3>
-                 <ul id="sidebar-category-list">
-                     </ul>
-            </aside>
-
-            <section id="trait-display-area" class="flex-grow min-w-0" style="display: none;">
-                 <h2 id="trait-area-title" class="text-2xl font-semibold text-gray-800 mb-6"></h2>
-                 <div id="trait-cards-container" class="trait-cards-container">
-                     </div>
-            </section>
 
         </div>
 
@@ -234,28 +289,27 @@
     </footer>
 
     <script>
-        // --- Data: Character Categories and Traits ---
+        // --- UPDATED Data: Character Categories and Traits ---
+        // Includes gridArea for initial layout and updated bgClass mapping
         const characterData = {
-            // Left Side (Moral) - Added borderClass
-            'Purposefulness': { side: 'left', bgClass: 'cat-bg-purposefulness', borderClass: 'border-cat-purposefulness', traits: ['Awe', 'Certitude', 'Clarity', 'Faith', 'Grace', 'Prayerfulness', 'Reverence', 'Wonder', 'Zeal'] },
-            'Hope': { side: 'left', bgClass: 'cat-bg-hope', borderClass: 'border-cat-hope', traits: ['Encouragement', 'Idealism', 'Inspiration', 'Motivation', 'Optimism'] },
-            'Truthfulness': { side: 'left', bgClass: 'cat-bg-truthfulness', borderClass: 'border-cat-truthfulness', traits: ['Fairness', 'Honesty', 'Honour', 'Integrity', 'Justice', 'Nobility', 'Righteousness', 'Sincerity'] },
-            'Love': { side: 'left', bgClass: 'cat-bg-love', borderClass: 'border-cat-love', traits: ['Appreciation', 'Cheerfulness', 'Devotion', 'Enthusiasm', 'Gentleness', 'Gratitude', 'Joyfulness', 'Loyalty', 'Passion', 'Thankfulness'] },
-            'Respect': { side: 'left', bgClass: 'cat-bg-respect', borderClass: 'border-cat-respect', traits: ['Consideration', 'Cooperation', 'Courtesy', 'Dignity', 'Empathy', 'Friendliness', 'Hospitality', 'Humanity', 'Humility', 'Modesty', 'Openness', 'Tact', 'Thoughtfulness', 'Understanding', 'Unity'] },
-            'Mindfulness': { side: 'left', bgClass: 'cat-bg-mindfulness', borderClass: 'border-cat-mindfulness', traits: ['Beauty', 'Composure', 'Contentment', 'Peacefulness', 'Serenity', 'Simplicity'] },
-            // Right Side (Performance) - Added borderClass
-            'Wisdom': { side: 'right', bgClass: 'cat-bg-wisdom', borderClass: 'border-cat-wisdom', traits: ['Curiosity', 'Creativity', 'Discernment', 'Foresight', 'Humour', 'Initiative', 'Innovation', 'Leadership', 'Perceptiveness', 'Strategy', 'Vision'] },
-            'Trustworthiness': { side: 'right', bgClass: 'cat-bg-trustworthiness', borderClass: 'border-cat-trustworthiness', traits: ['Accountability', 'Congruence', 'Discretion', 'Faithfulness', 'Fidelity', 'Reliability', 'Responsibility', 'Trust'] },
-            'Compassion': { side: 'right', bgClass: 'cat-bg-compassion', borderClass: 'border-cat-compassion', traits: ['Caring', 'Charity', 'Generosity', 'Helpfulness', 'Kindness', 'Mercy', 'Service'] },
-            'Courage': { side: 'right', bgClass: 'cat-bg-courage', borderClass: 'border-cat-courage', traits: ['Assertiveness', 'Bravery', 'Commitment', 'Confidence', 'Decisiveness', 'Determination', 'Endurance', 'Fortitude', 'Independence', 'Perseverance', 'Resilience', 'Steadfastness', 'Strength'] },
-            'Tolerance': { side: 'right', bgClass: 'cat-bg-tolerance', borderClass: 'border-cat-tolerance', traits: ['Acceptance', 'Detachment', 'Flexibility', 'Forbearance', 'Forgiveness', 'Patience', 'Sacrifice'] },
-            'Self-Discipline': { side: 'right', bgClass: 'cat-bg-self-discipline', borderClass: 'border-cat-self-discipline', traits: ['Cleanliness', 'Consistency', 'Diligence', 'Efficiency', 'Excellence', 'Moderation', 'Orderliness', 'Professionalism', 'Purity'] }
+            'Purposefulness': { gridArea: '1 / 2', bgClass: 'cat-bg-purposefulness', traits: ['Awe', 'Certitude', 'Clarity', 'Faith', 'Grace', 'Prayerfulness', 'Reverence', 'Wonder', 'Zeal'] },
+            'Hope':           { gridArea: '2 / 2', bgClass: 'cat-bg-hope', traits: ['Encouragement', 'Idealism', 'Inspiration', 'Motivation', 'Optimism'] },
+            'Truthfulness':   { gridArea: '3 / 2', bgClass: 'cat-bg-truthfulness', traits: ['Fairness', 'Honesty', 'Honour', 'Integrity', 'Justice', 'Nobility', 'Righteousness', 'Sincerity'] },
+            'Love':           { gridArea: '4 / 2', bgClass: 'cat-bg-love', traits: ['Appreciation', 'Cheerfulness', 'Devotion', 'Enthusiasm', 'Gentleness', 'Gratitude', 'Joyfulness', 'Loyalty', 'Passion', 'Thankfulness'] },
+            'Respect':        { gridArea: '6 / 2', bgClass: 'cat-bg-respect', traits: ['Consideration', 'Cooperation', 'Courtesy', 'Dignity', 'Empathy', 'Friendliness', 'Hospitality', 'Humanity', 'Humility', 'Modesty', 'Openness', 'Tact', 'Thoughtfulness', 'Understanding', 'Unity'] },
+            'Mindfulness':    { gridArea: '7 / 2', bgClass: 'cat-bg-mindfulness', traits: ['Beauty', 'Composure', 'Contentment', 'Peacefulness', 'Serenity', 'Simplicity'] },
+
+            'Wisdom':         { gridArea: '2 / 4', bgClass: 'cat-bg-wisdom', traits: ['Curiosity', 'Creativity', 'Discernment', 'Foresight', 'Humour', 'Initiative', 'Innovation', 'Leadership', 'Perceptiveness', 'Strategy', 'Vision'] },
+            'Trustworthiness':{ gridArea: '3 / 4', bgClass: 'cat-bg-trustworthiness', traits: ['Accountability', 'Congruence', 'Discretion', 'Faithfulness', 'Fidelity', 'Reliability', 'Responsibility', 'Trust'] },
+            'Compassion':     { gridArea: '4 / 4', bgClass: 'cat-bg-compassion', traits: ['Caring', 'Charity', 'Generosity', 'Helpfulness', 'Kindness', 'Mercy', 'Service'] },
+            'Courage':        { gridArea: '5 / 4', bgClass: 'cat-bg-courage', traits: ['Assertiveness', 'Bravery', 'Commitment', 'Confidence', 'Decisiveness', 'Determination', 'Endurance', 'Fortitude', 'Independence', 'Perseverance', 'Resilience', 'Steadfastness', 'Strength'] },
+            'Tolerance':      { gridArea: '6 / 4', bgClass: 'cat-bg-tolerance', traits: ['Acceptance', 'Detachment', 'Flexibility', 'Forbearance', 'Forgiveness', 'Patience', 'Sacrifice'] },
+            'Self-Discipline':{ gridArea: '7 / 4', bgClass: 'cat-bg-self-discipline', traits: ['Cleanliness', 'Consistency', 'Diligence', 'Efficiency', 'Excellence', 'Moderation', 'Orderliness', 'Professionalism', 'Purity'] }
         };
 
         // --- DOM Elements ---
         const initialViewContainer = document.getElementById('initial-view-container');
-        const leftCategoryColumn = document.getElementById('left-category-column');
-        const rightCategoryColumn = document.getElementById('right-category-column');
+        const sidebarTraitView = document.getElementById('sidebar-trait-view'); // Renamed container
         const sidebar = document.getElementById('sidebar');
         const sidebarCategoryList = document.getElementById('sidebar-category-list');
         const traitDisplayArea = document.getElementById('trait-display-area');
@@ -267,18 +321,26 @@
         const modalTraitDescription = document.getElementById('modal-trait-description');
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const backButton = document.getElementById('back-to-main-view-button');
+        const introText = document.getElementById('intro-text'); // Get intro text p tag
 
         // --- Functions ---
 
         // Function to create a category box for the initial view
         function createCategoryBox(categoryName, data) {
+            const boxWrapper = document.createElement('div');
+            boxWrapper.className = 'grid-cell';
+            // Set grid area using inline style based on data
+            boxWrapper.style.gridArea = data.gridArea;
+
             const box = document.createElement('div');
-            // Use bgClass for background
-            box.className = `category-box ${data.bgClass}`;
+            box.className = `category-box ${data.bgClass}`; // Use bgClass
             box.textContent = categoryName;
             box.dataset.category = categoryName;
             box.addEventListener('click', () => handleCategorySelect(categoryName));
-            return box;
+
+            boxWrapper.appendChild(box);
+            return boxWrapper;
         }
 
         // Function to create a sidebar list item
@@ -287,19 +349,23 @@
             const button = document.createElement('button');
             button.textContent = categoryName;
             button.dataset.category = categoryName;
-            // Add bgClass for potential use in selection styling
-            button.classList.add(data.bgClass);
+            button.classList.add(data.bgClass); // Add bgClass for selection styling reference
             button.addEventListener('click', () => displayTraits(categoryName));
             li.appendChild(button);
             return li;
         }
 
-        // Function to create a trait card
+        // Function to create a trait card (includes image placeholder)
         function createTraitCard(traitName) {
             const card = document.createElement('div');
-            card.className = 'trait-card'; // Base class, border color added via container
-            card.textContent = traitName;
+            card.className = 'trait-card';
             card.dataset.trait = traitName;
+            card.innerHTML = `
+                <div class="trait-image-placeholder">
+                    <i class="fas fa-image"></i>
+                    </div>
+                <div class="trait-name">${traitName}</div>
+            `;
             card.addEventListener('click', () => handleTraitSelect(traitName));
             return card;
         }
@@ -310,27 +376,21 @@
             if (!data) return;
 
             traitAreaTitle.textContent = `Traits of ${categoryName}`;
-            traitCardsContainer.innerHTML = '';
-            traitCardsContainer.classList.remove('visible'); // Hide for fade-in
-
-            // Remove any existing border classes from the container
-            traitCardsContainer.className = 'trait-cards-container'; // Reset classes
-            // Add the new border class to the container
-            traitCardsContainer.classList.add(data.borderClass);
+            traitCardsContainer.innerHTML = ''; // Clear previous cards
 
             data.traits.forEach(trait => {
                 const card = createTraitCard(trait);
                 traitCardsContainer.appendChild(card);
             });
 
-            // Trigger fade-in effect
-            requestAnimationFrame(() => {
+            updateSidebarSelection(categoryName);
+
+            // Ensure trait container is visible (it's inside sidebar-trait-view now)
+             requestAnimationFrame(() => {
                  requestAnimationFrame(() => {
-                    traitCardsContainer.classList.add('visible');
+                    // No need to add 'visible' class if parent handles opacity
                  });
             });
-
-            updateSidebarSelection(categoryName);
         }
 
         // Function to update sidebar selection highlight
@@ -339,41 +399,51 @@
              sidebarButtons.forEach(button => {
                  const categoryName = button.dataset.category;
                  const data = characterData[categoryName];
-                 // Remove generic selected styles first
                  button.classList.remove('selected', 'text-white');
-                 // Remove specific background color class if previously added
-                 button.classList.remove(data.bgClass); // Remove the bg class itself
+                 button.classList.remove(data.bgClass);
 
                  if (button.dataset.category === selectedCategoryName) {
                      button.classList.add('selected');
-                     // Add the specific bg class back to apply the correct selected style from CSS
                      button.classList.add(data.bgClass);
                  } else {
-                      // Ensure non-selected buttons have default text color
                       button.classList.add('text-gray-700');
                  }
              });
         }
 
-
         // Function to handle the initial category selection
         function handleCategorySelect(categoryName) {
-            // Hide initial view (with transition)
+            // Hide initial view
             initialViewContainer.style.opacity = '0';
             initialViewContainer.style.transform = 'scale(0.95)';
+            introText.style.display = 'none'; // Hide intro text
             setTimeout(() => {
-                 initialViewContainer.style.display = 'none'; // Hide completely after transition
-            }, 500); // Match transition duration
+                 initialViewContainer.style.display = 'none';
+            }, 500);
 
-            // Show sidebar (triggers its own transition via CSS .active class)
-            sidebar.classList.add('active');
-
-            // Show trait display area (it will handle its own fade-in via JS)
-            traitDisplayArea.style.display = 'block';
+            // Show sidebar/trait view (triggers its own transition)
+            sidebarTraitView.classList.add('active');
+            backButton.classList.add('visible'); // Show back button
 
             // Display traits for the selected category
             displayTraits(categoryName);
         }
+
+        // *** NEW Function to handle going back to the main view ***
+        function handleGoBackToMainView() {
+            // Hide sidebar/trait view
+            sidebarTraitView.classList.remove('active');
+            backButton.classList.remove('visible'); // Hide back button
+
+            // Show initial view
+            initialViewContainer.style.display = 'grid'; // Restore display
+            introText.style.display = 'block'; // Show intro text again
+            requestAnimationFrame(() => { // Allow display change to register
+                initialViewContainer.style.opacity = '1';
+                initialViewContainer.style.transform = 'scale(1)';
+            });
+        }
+
 
         // Function to handle trait card selection (open modal)
         function handleTraitSelect(traitName) {
@@ -389,20 +459,26 @@
 
         // --- Initialization ---
         function initializeInterface() {
-            // Ensure containers are empty before populating
-            leftCategoryColumn.innerHTML = '';
-            rightCategoryColumn.innerHTML = '';
-            sidebarCategoryList.innerHTML = '';
+            initialViewContainer.innerHTML = ''; // Clear grid container
+            sidebarCategoryList.innerHTML = ''; // Clear sidebar
 
+            // Add SVG container to the grid
+            const svgContainer = document.createElement('div');
+            svgContainer.className = 'human-silhouette-container';
+            svgContainer.style.gridArea = '1 / 3 / 8 / 4'; // Explicitly set area for SVG
+            svgContainer.innerHTML = `
+                <svg class="human-silhouette-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 10 C 40 10, 35 20, 35 30 C 35 45, 40 55, 50 55 C 60 55, 65 45, 65 30 C 65 20, 60 10, 50 10 Z M 50 60 C 30 60, 20 75, 20 100 L 20 170 C 20 190, 35 200, 50 200 C 65 200, 80 190, 80 170 L 80 100 C 80 75, 70 60, 50 60 Z"></path>
+                </svg>
+            `;
+            initialViewContainer.appendChild(svgContainer);
+
+            // Add category boxes to the grid & populate sidebar
             Object.keys(characterData).forEach(category => {
                 const data = characterData[category];
-                // Add to initial view columns
-                const categoryBox = createCategoryBox(category, data);
-                if (data.side === 'left') {
-                    leftCategoryColumn.appendChild(categoryBox);
-                } else {
-                    rightCategoryColumn.appendChild(categoryBox);
-                }
+                // Add category box to initial grid view
+                const categoryBoxWrapper = createCategoryBox(category, data);
+                initialViewContainer.appendChild(categoryBoxWrapper);
                 // Add to sidebar list
                 const sidebarItem = createSidebarItem(category, data);
                 sidebarCategoryList.appendChild(sidebarItem);
@@ -417,8 +493,8 @@
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
+        backButton.addEventListener('click', handleGoBackToMainView); // Listener for back button
         document.getElementById('current-year').textContent = new Date().getFullYear();
-        // Run initialization only after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', initializeInterface);
 
     </script>
