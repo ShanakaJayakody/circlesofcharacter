@@ -187,9 +187,22 @@
         .trait-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
         /* Image Placeholder Area */
         .trait-image-placeholder {
-            height: 180px; background-color: #f3f4f6; display: flex;
-            align-items: center; justify-content: center; color: #9ca3af;
-            font-size: 2rem; border-bottom: 1px solid #e5e7eb;
+            height: 180px; /* Fixed height for image area */
+            background-color: #f3f4f6; /* gray-100 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af; /* gray-400 */
+            font-size: 2rem; /* Size of placeholder icon */
+            border-bottom: 1px solid #e5e7eb; /* Separator line */
+            overflow: hidden; /* Hide overflow if image is larger */
+        }
+         /* Style for the actual image inside the placeholder */
+        .trait-image-placeholder img {
+            display: block; /* Remove extra space below image */
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Scale the image to fit fully inside */
         }
         /* Trait Name Area */
         .trait-name { padding: 1rem; font-weight: 600; color: #374151; font-size: 1.1rem; }
@@ -289,27 +302,37 @@
     </footer>
 
     <script>
-        // --- UPDATED Data: Character Categories and Traits ---
-        // Includes gridArea for initial layout and updated bgClass mapping
+        // --- Data: Character Categories and Traits (UPDATED TRAIT LISTS) ---
         const characterData = {
-            'Purposefulness': { gridArea: '1 / 2', bgClass: 'cat-bg-purposefulness', traits: ['Awe', 'Certitude', 'Clarity', 'Faith', 'Grace', 'Prayerfulness', 'Reverence', 'Wonder', 'Zeal'] },
-            'Hope':           { gridArea: '2 / 2', bgClass: 'cat-bg-hope', traits: ['Encouragement', 'Idealism', 'Inspiration', 'Motivation', 'Optimism'] },
-            'Truthfulness':   { gridArea: '3 / 2', bgClass: 'cat-bg-truthfulness', traits: ['Fairness', 'Honesty', 'Honour', 'Integrity', 'Justice', 'Nobility', 'Righteousness', 'Sincerity'] },
-            'Love':           { gridArea: '4 / 2', bgClass: 'cat-bg-love', traits: ['Appreciation', 'Cheerfulness', 'Devotion', 'Enthusiasm', 'Gentleness', 'Gratitude', 'Joyfulness', 'Loyalty', 'Passion', 'Thankfulness'] },
-            'Respect':        { gridArea: '6 / 2', bgClass: 'cat-bg-respect', traits: ['Consideration', 'Cooperation', 'Courtesy', 'Dignity', 'Empathy', 'Friendliness', 'Hospitality', 'Humanity', 'Humility', 'Modesty', 'Openness', 'Tact', 'Thoughtfulness', 'Understanding', 'Unity'] },
-            'Mindfulness':    { gridArea: '7 / 2', bgClass: 'cat-bg-mindfulness', traits: ['Beauty', 'Composure', 'Contentment', 'Peacefulness', 'Serenity', 'Simplicity'] },
+            'Purposefulness': { gridArea: '1 / 2', bgClass: 'cat-bg-purposefulness', traits: ['Wonder'] },
+            'Hope':           { gridArea: '2 / 2', bgClass: 'cat-bg-hope', traits: ['Encouragement', 'Hope', 'Optimism'] },
+            'Truthfulness':   { gridArea: '3 / 2', bgClass: 'cat-bg-truthfulness', traits: ['Fairness', 'Honesty', 'Integrity', 'Sincerity', 'Justice'] },
+            'Love':           { gridArea: '4 / 2', bgClass: 'cat-bg-love', traits: ['Appreciation', 'Cheerfulness', 'Enthusiasm', 'Gentleness', 'Gratitude', 'Joyfulness', 'Love'] },
+            'Respect':        { gridArea: '6 / 2', bgClass: 'cat-bg-respect', traits: ['Cooperation', 'Courtesy', 'Friendliness', 'Humility', 'Respect', 'Thoughtfulness', 'Unity', 'Understanding'] },
+            'Mindfulness':    { gridArea: '7 / 2', bgClass: 'cat-bg-mindfulness', traits: ['Mindfulness', 'Beauty', 'Composure', 'Contentment', 'Peacefulness', 'Simplicity'] },
 
-            'Wisdom':         { gridArea: '2 / 4', bgClass: 'cat-bg-wisdom', traits: ['Curiosity', 'Creativity', 'Discernment', 'Foresight', 'Humour', 'Initiative', 'Innovation', 'Leadership', 'Perceptiveness', 'Strategy', 'Vision'] },
-            'Trustworthiness':{ gridArea: '3 / 4', bgClass: 'cat-bg-trustworthiness', traits: ['Accountability', 'Congruence', 'Discretion', 'Faithfulness', 'Fidelity', 'Reliability', 'Responsibility', 'Trust'] },
-            'Compassion':     { gridArea: '4 / 4', bgClass: 'cat-bg-compassion', traits: ['Caring', 'Charity', 'Generosity', 'Helpfulness', 'Kindness', 'Mercy', 'Service'] },
-            'Courage':        { gridArea: '5 / 4', bgClass: 'cat-bg-courage', traits: ['Assertiveness', 'Bravery', 'Commitment', 'Confidence', 'Decisiveness', 'Determination', 'Endurance', 'Fortitude', 'Independence', 'Perseverance', 'Resilience', 'Steadfastness', 'Strength'] },
-            'Tolerance':      { gridArea: '6 / 4', bgClass: 'cat-bg-tolerance', traits: ['Acceptance', 'Detachment', 'Flexibility', 'Forbearance', 'Forgiveness', 'Patience', 'Sacrifice'] },
-            'Self-Discipline':{ gridArea: '7 / 4', bgClass: 'cat-bg-self-discipline', traits: ['Cleanliness', 'Consistency', 'Diligence', 'Efficiency', 'Excellence', 'Moderation', 'Orderliness', 'Professionalism', 'Purity'] }
+            'Wisdom':         { gridArea: '2 / 4', bgClass: 'cat-bg-wisdom', traits: ['Curiosity', 'Creativity'] },
+            'Trustworthiness':{ gridArea: '3 / 4', bgClass: 'cat-bg-trustworthiness', traits: ['Accountability', 'Reliability', 'Responsibility', 'Trust', 'Trustworthiness'] },
+            'Compassion':     { gridArea: '4 / 4', bgClass: 'cat-bg-compassion', traits: ['Caring', 'Compassion', 'Generosity', 'Helpfulness', 'Kindness', 'Service'] },
+            'Courage':        { gridArea: '5 / 4', bgClass: 'cat-bg-courage', traits: ['Bravery', 'Commitment', 'Confidence', 'Determination', 'Perseverance', 'Resilience', 'Strength'] },
+            'Tolerance':      { gridArea: '6 / 4', bgClass: 'cat-bg-tolerance', traits: ['Acceptance', 'Flexibility', 'Forgiveness', 'Patience', 'Tolerance'] },
+            'Self-Discipline':{ gridArea: '7 / 4', bgClass: 'cat-bg-self-discipline', traits: ['Cleanliness', 'Consistency', 'Diligence', 'Orderliness', 'Moderation'] }
         };
+
+        // Mapping for specific trait images
+        const traitImages = {
+            'Determination': 'https://media-hosting.imagekit.io/87c36c2475cb4c42/determination%20v2.png?Expires=1839246437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=2wiriDElkOS1D27MpU4Xq7CAakIKSjfYELHXuX~uqirYmVVvve5fkCfiNgXYyzJ3O3Yq1qN2TE29tl6ivq2zTD797C9y~IBKCh5-z0fNGTc~x0voCTgTVwVUMVVC3pC-NkFY6hdzY8oupXwIjKJ8eAxMVYb-CwqpDPZ3yO-g8xNa6Smjd8mD24Kzxy9v9GBU4pXcBX7vOZKC32oWqFMt3YBImxrqd5yYJxvg52JkBeGZoW5FGtMdAQYnTnPhxz92jMYDKmNZd18E5lexeFrdudqaL2ENBEKx9lOG~TxcI70feofXtpd5ihJQX355apref7YTgBHVyNmWoC2NDCiouA__',
+            'Courage': 'https://media-hosting.imagekit.io/28f0a118a9504d15/courage%20v2.png?Expires=1839246437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=yyLsqDkTs26g4ZeHCdYb0-pkr2Ddl4BBE0fJkMMgx49aO2IQ-hzyfqnysfq0E7wOi3Vgdv7OoimNsYs3CJMnl56D~PnM5ptNqRvjiYswegI1ksT0q5KCg2YIwQNcLn49T8nkDKMyoFVDsVZsDhJSaKRkf1grMyfZUtpG9powmNB5brT5k~l7ScfO97M8OHcMTVptWc4pSCkinjhZU6~yt1hK25UKWhcTJMq2baiVUJ7-w-GhkUB6lzoAat8kVvzopCAP3u5yQctDghG1Kq0eD7-5P83-76MeW1k19BWRONXz93AVPG8jQNXZtrlSzFef4IZk2oME91t0UmiyzB1z6Q__', // Note: Also a category name, image applied to trait card.
+            'Resilience': 'https://media-hosting.imagekit.io/3d878313b71e4d18/resilience%20v2.png?Expires=1839246437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=GO4i4S0S95HHvSCtJMLGJsU31zHRFDZxM5guGeSIwXO3PR~BxXTSIrUy0cdqJG1jvN2ESMUYGToLWubbqKM6NKfRuqj3V-MmyUiUbQCf~TVhdqiS6C8-nEOKxrHC-jRa9jO4ipGVmu3ckZdRKDFJVkgfO78VkzUOuTZLNeo0D7iqG0CFJAX45vofHrsfJlds8RM8PRkYQCFE3DDSfZXY1hKohR6AWV15rUJKmQOmcFkkJOz1JP5DsbGbfFEcmtVIReBaGgvBgLjwlbp~M~KIiXrfa6bOdp-bqzw5ljieMkk3hWEPzXX~R6x75Em~aVi2mBisMcfixvHDATEuW4wecw__',
+            'Confidence': 'https://media-hosting.imagekit.io/a1c76ba228c44ef1/Confidence%20v2.png?Expires=1839246437&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=b2TThOPKbmtvWwfHF50dI0xw-YEPdnid63I8OZGNpvCHCrrHyr5TUTlg-AHftezC4Ca7BL6JQzbh2ipSnJjYjOHeknOlboVzJRrszF1~43Cov90wg4CgE6Em4xDGMO11Te5z1KcNZGqGoWysW4g1RTGfY2n4-Tq7kuEQVJ7e-LlLtvdUuS-iTdCU9ELPt8PWddpz3MrJCp7LADkpf8kRqaSEWjh6JO1Z12fn1CvOIiTm393CmBqw6amGlFhA-OXBFUxtqoZZzkndDO3uy5YfamccXKPrTsjvD6yKCsilOXta~9VlQlkC0RpRIx45oLPYC4uyi1nF~GlAa1MKsLldlA__',
+            'Commitment': 'https://media-hosting.imagekit.io/0d6c83d7acfe4a87/Commitment.png?Expires=1839246599&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ythoiD1ys8UaOuvo1uAuYiGkXGFLDB3Sqzu9eP~K8iKYt-qggtraPwdpnsYdFBmQGFNa5ytWtWi6hvhwuTNBzQJCSVvXbATtRw53p0E9nVXfYFC9Rg41qQjSUnMJ3h7fbbe5hbGCx-~dVjpkASOmITe04-k4heEZAl1D5v1Qa22A9DjkH1fDpcl1aDuXjSJirebv-98WHLFnx~GIy2fcDScKY9sNvAuMn4Ft7EriNMxChhX7iXzCs90msuJl0IlO8WmdL7ZQKgmLC2GSKBj9qddYVPYWPPTMisep8iYbay5F5JsjGd-WQdbx2x1MH5CF0iNavxz3UQ0Zw5TrNh5drw__',
+            'Bravery': 'https://media-hosting.imagekit.io/94980be64d0948cd/bravery%20v2.png?Expires=1839246802&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=eGqJfGwAxOrmq4BHAvuBW2i1nPuiYzDJaCvMr8Li~3E3VyrRYAsY-2lwdKsoUvSiQOZ3R4px40kPHHMRgRA2ZJXP3peaA8R80QB2jDcZBEVbVV-eya3ibtUa288ZUZlSJt4z9NiH1R~6tNcDVby8aqW76P6VaIMxnhBjc1wdtBL-DjPJE39QXx6brurE4T-sbiFtD3-o31Vvfhg-Mjg2gVqFEgADeNF2bzC147gpaFTHu-YWVrNReLLZs0PufgrgswgCayvoTK1tnTqNI7-96fIJCVtMtFHic6FJk9VErXZ5eX~zUlAjWxwVvp9v8xjvwkh9345XjTZb8RjIZh6NcQ__'
+        };
+
 
         // --- DOM Elements ---
         const initialViewContainer = document.getElementById('initial-view-container');
-        const sidebarTraitView = document.getElementById('sidebar-trait-view'); // Renamed container
+        const sidebarTraitView = document.getElementById('sidebar-trait-view');
         const sidebar = document.getElementById('sidebar');
         const sidebarCategoryList = document.getElementById('sidebar-category-list');
         const traitDisplayArea = document.getElementById('trait-display-area');
@@ -322,7 +345,7 @@
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const backButton = document.getElementById('back-to-main-view-button');
-        const introText = document.getElementById('intro-text'); // Get intro text p tag
+        const introText = document.getElementById('intro-text');
 
         // --- Functions ---
 
@@ -330,15 +353,12 @@
         function createCategoryBox(categoryName, data) {
             const boxWrapper = document.createElement('div');
             boxWrapper.className = 'grid-cell';
-            // Set grid area using inline style based on data
             boxWrapper.style.gridArea = data.gridArea;
-
             const box = document.createElement('div');
-            box.className = `category-box ${data.bgClass}`; // Use bgClass
+            box.className = `category-box ${data.bgClass}`;
             box.textContent = categoryName;
             box.dataset.category = categoryName;
             box.addEventListener('click', () => handleCategorySelect(categoryName));
-
             boxWrapper.appendChild(box);
             return boxWrapper;
         }
@@ -349,23 +369,44 @@
             const button = document.createElement('button');
             button.textContent = categoryName;
             button.dataset.category = categoryName;
-            button.classList.add(data.bgClass); // Add bgClass for selection styling reference
+            button.classList.add(data.bgClass);
             button.addEventListener('click', () => displayTraits(categoryName));
             li.appendChild(button);
             return li;
         }
 
-        // Function to create a trait card (includes image placeholder)
+        // Function to create a trait card with conditional image
         function createTraitCard(traitName) {
             const card = document.createElement('div');
             card.className = 'trait-card';
             card.dataset.trait = traitName;
-            card.innerHTML = `
-                <div class="trait-image-placeholder">
-                    <i class="fas fa-image"></i>
-                    </div>
-                <div class="trait-name">${traitName}</div>
-            `;
+
+            const imgPlaceholder = document.createElement('div');
+            imgPlaceholder.className = 'trait-image-placeholder';
+
+            if (traitImages[traitName]) {
+                const img = document.createElement('img');
+                img.src = traitImages[traitName];
+                img.alt = traitName;
+                // Add error handling for broken images
+                img.onerror = function() {
+                    // Replace with placeholder icon if image fails
+                    this.outerHTML = '<i class="fas fa-image"></i>';
+                 };
+                imgPlaceholder.appendChild(img);
+            } else {
+                // Use placeholder icon if no specific image is defined
+                const icon = document.createElement('i');
+                icon.className = 'fas fa-image';
+                imgPlaceholder.appendChild(icon);
+            }
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'trait-name';
+            nameDiv.textContent = traitName;
+
+            card.appendChild(imgPlaceholder);
+            card.appendChild(nameDiv);
             card.addEventListener('click', () => handleTraitSelect(traitName));
             return card;
         }
@@ -374,24 +415,23 @@
         function displayTraits(categoryName) {
             const data = characterData[categoryName];
             if (!data) return;
-
             traitAreaTitle.textContent = `Traits of ${categoryName}`;
             traitCardsContainer.innerHTML = ''; // Clear previous cards
-
-            data.traits.forEach(trait => {
-                const card = createTraitCard(trait);
-                traitCardsContainer.appendChild(card);
-            });
-
+            // Check if data.traits exists and is an array
+            if (data.traits && Array.isArray(data.traits)) {
+                data.traits.forEach(trait => {
+                    const card = createTraitCard(trait);
+                    traitCardsContainer.appendChild(card);
+                });
+            } else {
+                console.error(`No traits found or traits is not an array for category: ${categoryName}`);
+                // Optionally display a message in the container
+                traitCardsContainer.innerHTML = '<p class="text-gray-500">No specific traits listed for this category.</p>';
+            }
             updateSidebarSelection(categoryName);
-
-            // Ensure trait container is visible (it's inside sidebar-trait-view now)
-             requestAnimationFrame(() => {
-                 requestAnimationFrame(() => {
-                    // No need to add 'visible' class if parent handles opacity
-                 });
-            });
+            requestAnimationFrame(() => { requestAnimationFrame(() => { /* Ensure layout repaint */ }); });
         }
+
 
         // Function to update sidebar selection highlight
         function updateSidebarSelection(selectedCategoryName) {
@@ -399,12 +439,9 @@
              sidebarButtons.forEach(button => {
                  const categoryName = button.dataset.category;
                  const data = characterData[categoryName];
-                 button.classList.remove('selected', 'text-white');
-                 button.classList.remove(data.bgClass);
-
+                 button.classList.remove('selected', 'text-white', data.bgClass);
                  if (button.dataset.category === selectedCategoryName) {
-                     button.classList.add('selected');
-                     button.classList.add(data.bgClass);
+                     button.classList.add('selected', data.bgClass);
                  } else {
                       button.classList.add('text-gray-700');
                  }
@@ -413,37 +450,26 @@
 
         // Function to handle the initial category selection
         function handleCategorySelect(categoryName) {
-            // Hide initial view
             initialViewContainer.style.opacity = '0';
             initialViewContainer.style.transform = 'scale(0.95)';
-            introText.style.display = 'none'; // Hide intro text
-            setTimeout(() => {
-                 initialViewContainer.style.display = 'none';
-            }, 500);
-
-            // Show sidebar/trait view (triggers its own transition)
+            introText.style.display = 'none';
+            setTimeout(() => { initialViewContainer.style.display = 'none'; }, 500);
             sidebarTraitView.classList.add('active');
-            backButton.classList.add('visible'); // Show back button
-
-            // Display traits for the selected category
+            backButton.classList.add('visible');
             displayTraits(categoryName);
         }
 
-        // *** NEW Function to handle going back to the main view ***
+        // Function to handle going back to the main view
         function handleGoBackToMainView() {
-            // Hide sidebar/trait view
             sidebarTraitView.classList.remove('active');
-            backButton.classList.remove('visible'); // Hide back button
-
-            // Show initial view
-            initialViewContainer.style.display = 'grid'; // Restore display
-            introText.style.display = 'block'; // Show intro text again
-            requestAnimationFrame(() => { // Allow display change to register
+            backButton.classList.remove('visible');
+            initialViewContainer.style.display = 'grid';
+            introText.style.display = 'block';
+            requestAnimationFrame(() => {
                 initialViewContainer.style.opacity = '1';
                 initialViewContainer.style.transform = 'scale(1)';
             });
         }
-
 
         // Function to handle trait card selection (open modal)
         function handleTraitSelect(traitName) {
@@ -459,27 +485,17 @@
 
         // --- Initialization ---
         function initializeInterface() {
-            initialViewContainer.innerHTML = ''; // Clear grid container
-            sidebarCategoryList.innerHTML = ''; // Clear sidebar
-
-            // Add SVG container to the grid
+            initialViewContainer.innerHTML = '';
+            sidebarCategoryList.innerHTML = '';
             const svgContainer = document.createElement('div');
             svgContainer.className = 'human-silhouette-container';
-            svgContainer.style.gridArea = '1 / 3 / 8 / 4'; // Explicitly set area for SVG
-            svgContainer.innerHTML = `
-                <svg class="human-silhouette-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 10 C 40 10, 35 20, 35 30 C 35 45, 40 55, 50 55 C 60 55, 65 45, 65 30 C 65 20, 60 10, 50 10 Z M 50 60 C 30 60, 20 75, 20 100 L 20 170 C 20 190, 35 200, 50 200 C 65 200, 80 190, 80 170 L 80 100 C 80 75, 70 60, 50 60 Z"></path>
-                </svg>
-            `;
+            svgContainer.style.gridArea = '1 / 3 / 8 / 4';
+            svgContainer.innerHTML = `<svg class="human-silhouette-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 C 40 10, 35 20, 35 30 C 35 45, 40 55, 50 55 C 60 55, 65 45, 65 30 C 65 20, 60 10, 50 10 Z M 50 60 C 30 60, 20 75, 20 100 L 20 170 C 20 190, 35 200, 50 200 C 65 200, 80 190, 80 170 L 80 100 C 80 75, 70 60, 50 60 Z"></path></svg>`;
             initialViewContainer.appendChild(svgContainer);
-
-            // Add category boxes to the grid & populate sidebar
             Object.keys(characterData).forEach(category => {
                 const data = characterData[category];
-                // Add category box to initial grid view
                 const categoryBoxWrapper = createCategoryBox(category, data);
                 initialViewContainer.appendChild(categoryBoxWrapper);
-                // Add to sidebar list
                 const sidebarItem = createSidebarItem(category, data);
                 sidebarCategoryList.appendChild(sidebarItem);
             });
@@ -487,13 +503,9 @@
 
         // --- Event Listeners ---
         modalCloseButton.addEventListener('click', closeModal);
-        traitModal.addEventListener('click', (event) => {
-            if (event.target === traitModal) { closeModal(); }
-        });
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        backButton.addEventListener('click', handleGoBackToMainView); // Listener for back button
+        traitModal.addEventListener('click', (event) => { if (event.target === traitModal) { closeModal(); } });
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        backButton.addEventListener('click', handleGoBackToMainView);
         document.getElementById('current-year').textContent = new Date().getFullYear();
         document.addEventListener('DOMContentLoaded', initializeInterface);
 
